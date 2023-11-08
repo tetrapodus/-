@@ -1,0 +1,23 @@
+name: Add to TODO on Project
+
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  add_todo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set TODO label
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['TODO']
+            })
